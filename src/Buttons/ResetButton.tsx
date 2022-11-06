@@ -1,12 +1,13 @@
 import React from 'react';
-import s from "../Counter.module.css";
+import s from "../Counters/Counter.module.css";
 
 type ResetButtonType = {
-    count:number
-    reset: ()=>void
+    startValue: number
+    count: number | string
+    reset: () => void
 }
 
-export const ResetButton = (props:ResetButtonType) => {
+export const ResetButton = (props: ResetButtonType) => {
     const onClickResetHandler = () => {
         props.reset()
     }
@@ -15,8 +16,9 @@ export const ResetButton = (props:ResetButtonType) => {
             <button
                 className={s.button}
                 onClick={onClickResetHandler}
-                disabled={props.count===0}
-            >reset</button>
+                disabled={props.count === props.startValue || typeof props.count === 'string'}
+            >reset
+            </button>
         </div>
     );
 };

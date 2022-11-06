@@ -1,12 +1,13 @@
 import React from 'react';
-import s from "../Counter.module.css";
+import s from "../Counters/Counter.module.css";
 
 type IncButtonType = {
-    count:number
-    incrementation: (counter:number)=>void
+    maxValue: number
+    count: number | string
+    incrementation: (counter: number | string) => void
 }
 
-export const IncButton = (props:IncButtonType) => {
+export const IncButton = (props: IncButtonType) => {
     const onClickPlusHandler = () => {
         props.incrementation(props.count)
     }
@@ -16,8 +17,9 @@ export const IncButton = (props:IncButtonType) => {
             <button
                 className={s.button}
                 onClick={onClickPlusHandler}
-                disabled={props.count===5}
-            >inc</button>
+                disabled={props.count === props.maxValue || typeof props.count === 'string'}
+            >inc
+            </button>
         </div>
     );
 };

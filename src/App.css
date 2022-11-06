@@ -1,5 +1,6 @@
 .App {
   display: flex;
+  gap:100px;
   justify-content: center;
   align-items: center;
   background-color: slategrey;
