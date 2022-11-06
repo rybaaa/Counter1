@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import {Counter} from "./Counter";
 
 function App() {
+
+    const [count, setCount] = useState<number>(0)
+
+    const incrementation = (count:number) => {
+        if (count === 5) {
+            setCount(count)
+        }else {
+            setCount(count+1)
+        }
+    }
+
+    const reset = () => {
+        setCount(0)
+    }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Counter
+            count = {count}
+            incrementation={incrementation}
+            reset={reset}
+        />
     </div>
   );
 }
