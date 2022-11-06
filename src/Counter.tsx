@@ -2,14 +2,14 @@ import React from 'react';
 import s from './Counter.module.css'
 import {MouseEvent} from "react";
 
-type counterType = {
+type CounterType = {
     count:number
     incrementation: (counter:number)=>void
     reset: ()=>void
 }
 
 
-export const Counter = (props:counterType) => {
+export const Counter = (props:CounterType) => {
 
     const onClickPlusHandler = (e:MouseEvent<HTMLButtonElement>) => {
         props.incrementation(props.count)
