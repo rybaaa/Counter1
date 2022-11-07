@@ -16,17 +16,17 @@ type CounterType = {
 export const CounterSet = (props: CounterType) => {
 
     const onChangeHandlerStartValue = (e: ChangeEvent<HTMLInputElement>) => {
-        if (+e.currentTarget.value < 0 || +e.currentTarget.value >= props.maxValue) {
-            props.changeStartValue(+e.currentTarget.value)
+        if (parseInt(e.currentTarget.value, 10) < 0 || parseInt(e.currentTarget.value, 10) === -0 || +e.currentTarget.value >= props.maxValue) {
+            props.changeStartValue(parseInt(e.currentTarget.value, 10))
             props.changeSetValue('Invalid value!')
         } else {
             props.changeStartValue(+e.currentTarget.value)
-            props.changeSetValue('Press Set ')
+            props.changeSetValue('Press Set')
             props.changeDisabledButton()
         }
     }
     const onChangeHandlerMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
-        if (+e.currentTarget.value < 0 || +e.currentTarget.value <= props.startValue){
+        if (parseInt(e.currentTarget.value, 10) < 0 || +e.currentTarget.value <= props.startValue || props.startValue < 0) {
             props.changeMaxValue(+e.currentTarget.value)
             props.changeSetValue('Invalid value!')
         } else {
@@ -37,7 +37,7 @@ export const CounterSet = (props: CounterType) => {
 
     }
 
-    const input = props.count === 'Invalid value!'? s.redInput : s.input
+    const input = props.count === 'Invalid value!' ? s.redInput : s.input
 
     return (
         <div className={s.header}>

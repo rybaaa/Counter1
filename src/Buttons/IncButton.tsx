@@ -17,7 +17,7 @@ export const IncButton = (props: IncButtonType) => {
             <button
                 className={s.button}
                 onClick={onClickPlusHandler}
-                disabled={props.count === props.maxValue || typeof props.count === 'string'}
+                disabled={+props.count+1 >= props.maxValue || typeof props.count === 'string'}
             >inc
             </button>
         </div>

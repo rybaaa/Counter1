@@ -12,7 +12,7 @@ function App() {
     const [count, setCount] = useState<number | string>(startValue)
 
     const incrementation = (count: number | string) => {
-        if (count === maxValue) {
+        if (count > maxValue-1) {
             setCount(count)
         } else {
             setCount(+count + 1)
