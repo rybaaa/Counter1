@@ -1,22 +1,26 @@
 import React from 'react';
 import s from "../Counters/Counter.module.css";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStoreType} from "../state/store";
+import {resetAC} from "../state/counterreducer";
+import {CounterType} from "../Counters/Counter";
 
-type ResetButtonType = {
-    startValue: number
-    count: number | string
-    reset: () => void
-}
 
-export const ResetButton = (props: ResetButtonType) => {
+
+export const ResetButton = () => {
+
+    const counter = useSelector<AppRootStoreType, CounterType>(state => state.counter)
+    const dispatch = useDispatch()
+
     const onClickResetHandler = () => {
-        props.reset()
+        dispatch(resetAC())
     }
     return (
         <div>
             <button
                 className={s.button}
                 onClick={onClickResetHandler}
-                disabled={props.count === props.startValue || typeof props.count === 'string'}
+                disabled={counter.count === counter.startValue || typeof counter.count === 'string'}
             >reset
             </button>
         </div>

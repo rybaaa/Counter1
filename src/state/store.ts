@@ -3,7 +3,8 @@ import {counterreducer} from "./counterreducer";
 
 
 const rootReducer = combineReducers({
-    count: counterreducer})
+    counter: counterreducer
+})
 
 export const store = legacy_createStore(rootReducer)
 

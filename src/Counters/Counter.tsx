@@ -1,37 +1,38 @@
 import React from 'react';
 import s from './Counter.module.css'
-import {IncButton} from "../Buttons/IncButton";
-import {ResetButton} from "../Buttons/ResetButton";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStoreType} from "../state/store";
+import {Button} from "../Buttons/Button";
+import {incAC, resetAC} from "../state/counterreducer";
 
-type CounterType = {
-    startValue:number
+export type CounterType = {
+    startValue: number
     maxValue: number
     count: number | string
-    incrementation: (counter: number | string) => void
-    reset: () => void
+    offSetButton: boolean
 }
 
+export const Counter = () => {
 
-export const Counter = (props: CounterType) => {
+    const counter = useSelector<AppRootStoreType, CounterType>(state => state.counter)
+    const dispatch = useDispatch()
+    const incrementation = (value: number) => {
+        dispatch(incAC(value))
+    }
+    const reset = () => {
+        dispatch(resetAC())
+    }
 
-    const red_color = props.count === props.maxValue|| props.count === 'Invalid value!' ? s.redcounter : s.counter
+    const red_color = counter.count === counter.maxValue || counter.count === 'Invalid value!' ? s.redcounter : s.counter
 
     return (
         <div className={s.header}>
             <div className={red_color}>
-                {props.count}
+                {counter.count}
             </div>
             <div className={s.operations}>
-                <IncButton
-                    maxValue={props.maxValue}
-                    count={props.count}
-                    incrementation={props.incrementation}
-                />
-                <ResetButton
-                    startValue={props.startValue}
-                    count={props.count}
-                    reset={props.reset}
-                />
+                <Button counter={counter} onClick={incrementation} title={'inc'} disabled={+counter.count+1 > counter.maxValue || typeof counter.count === 'string'}/>
+                <Button counter={counter} onClick={reset} title={'reset'} disabled={counter.count === counter.startValue || typeof counter.count === 'string'}/>
             </div>
 
         </div>

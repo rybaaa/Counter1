@@ -1,43 +1,43 @@
 import React, {ChangeEvent} from 'react';
 import s from './CounterSet.module.css'
-import {SetButton} from "../Buttons/SetButton";
+import {useDispatch, useSelector} from "react-redux";
 
-type CounterType = {
-    startValue: number
-    maxValue: number
-    count: number | string
-    changeStartValue: (value: number) => void
-    changeMaxValue: (value: number) => void
-    changeSetValue: (value: number | string) => void
-    offButton: boolean
-    changeDisabledButton: () => void
-}
+import {changeMaxValueAC, changeStartValueAC, enabledButtonAC, setCountAC} from "../state/counterreducer";
+import {CounterType} from "./Counter";
+import {Button} from "../Buttons/Button";
+import {AppRootStoreType} from "../state/store";
 
-export const CounterSet = (props: CounterType) => {
+export const CounterSet = () => {
+
+    // const counter = useSelector<AppRootStoreType, CounterType>(state => state.counter)
+    const counter = useSelector<AppRootStoreType, CounterType>(state => state.counter)
+    const dispatch = useDispatch()
 
     const onChangeHandlerStartValue = (e: ChangeEvent<HTMLInputElement>) => {
-        if (parseInt(e.currentTarget.value, 10) < 0 || parseInt(e.currentTarget.value, 10) === -0 || +e.currentTarget.value >= props.maxValue) {
-            props.changeStartValue(parseInt(e.currentTarget.value, 10))
-            props.changeSetValue('Invalid value!')
+        if (+e.currentTarget.value < 0 || +e.currentTarget.value >= counter.maxValue) {
+            dispatch(changeStartValueAC(+e.currentTarget.value))
+            dispatch(setCountAC('Invalid value!'))
         } else {
-            props.changeStartValue(+e.currentTarget.value)
-            props.changeSetValue('Press Set')
-            props.changeDisabledButton()
+            dispatch(changeStartValueAC(+e.currentTarget.value))
+            dispatch(setCountAC('Press Set'))
+            dispatch(enabledButtonAC(false))
         }
     }
     const onChangeHandlerMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
-        if (parseInt(e.currentTarget.value, 10) < 0 || +e.currentTarget.value <= props.startValue || props.startValue < 0) {
-            props.changeMaxValue(+e.currentTarget.value)
-            props.changeSetValue('Invalid value!')
+        if (+e.currentTarget.value < 0 || +e.currentTarget.value <= counter.startValue || counter.startValue < 0) {
+            dispatch(changeMaxValueAC(+e.currentTarget.value))
+            dispatch(setCountAC('Invalid value!'))
         } else {
-            props.changeMaxValue(+e.currentTarget.value)
-            props.changeSetValue('Press Set ')
-            props.changeDisabledButton()
+            dispatch(changeMaxValueAC(+e.currentTarget.value))
+            dispatch(setCountAC('Press Set'))
+            dispatch(enabledButtonAC(false))
         }
-
+    }
+    const setCount = () => {
+        dispatch(setCountAC(counter.startValue))
     }
 
-    const input = props.count === 'Invalid value!' ? s.redInput : s.input
+    const input = counter.count === 'Invalid value!' ? s.redInput : s.input
 
     return (
         <div className={s.header}>
@@ -46,23 +46,23 @@ export const CounterSet = (props: CounterType) => {
                 <input
                     className={input}
                     onChange={onChangeHandlerStartValue}
-                    defaultValue={props.startValue}
-                    type={"number"}/>
+                    defaultValue={counter.startValue}
+                    type={"number"}
+                    min="0"
+                />
             </div>
             <div className={s.counter}>
                 MaxValue
                 <input
                     className={input}
                     onChange={onChangeHandlerMaxValue}
-                    defaultValue={props.maxValue}
-                    type={"number"}/>
+                    defaultValue={counter.maxValue}
+                    type={"number"}
+                    min="0"
+                />
             </div>
             <div className={s.operations}>
-                <SetButton
-                    startValue={props.startValue}
-                    changeSetValue={props.changeSetValue}
-                    offButton={props.offButton}
-                />
+                <Button title={'set'} counter={counter} onClick={setCount} disabled={counter.offSetButton}/>
             </div>
         </div>
     );

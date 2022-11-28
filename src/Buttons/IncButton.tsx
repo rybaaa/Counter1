@@ -1,15 +1,17 @@
 import React from 'react';
 import s from "../Counters/Counter.module.css";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStoreType} from "../state/store";
+import {incAC} from "../state/counterreducer";
+import {CounterType} from "../Counters/Counter";
 
-type IncButtonType = {
-    maxValue: number
-    count: number | string
-    incrementation: (counter: number | string) => void
-}
 
-export const IncButton = (props: IncButtonType) => {
+export const IncButton = () => {
+    const counter = useSelector<AppRootStoreType, CounterType>(state => state.counter)
+    const dispatch = useDispatch()
+
     const onClickPlusHandler = () => {
-        props.incrementation(props.count)
+        dispatch(incAC(counter.count))
     }
 
     return (
@@ -17,7 +19,7 @@ export const IncButton = (props: IncButtonType) => {
             <button
                 className={s.button}
                 onClick={onClickPlusHandler}
-                disabled={+props.count+1 > props.maxValue || typeof props.count === 'string'}
+                disabled={+counter.count+1 > counter.maxValue || typeof counter.count === 'string'}
             >inc
             </button>
         </div>

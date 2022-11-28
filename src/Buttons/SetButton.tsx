@@ -1,22 +1,22 @@
 import React from 'react';
 import s from "../Counters/Counter.module.css";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStoreType} from "../state/store";
+import {setCountAC} from "../state/counterreducer";
+import {CounterType} from "../Counters/Counter";
 
-type SetButtonType = {
-    startValue:number
-    changeSetValue: (value: number) => void
-    offButton:boolean
-}
-
-export const SetButton = (props:SetButtonType) => {
+export const SetButton = () => {
+    const counter = useSelector<AppRootStoreType, CounterType>(state => state.counter)
+    const dispatch = useDispatch()
     const onClickHandler = () => {
-        props.changeSetValue(props.startValue)
+        dispatch(setCountAC(counter.startValue))
     }
     return (
         <div>
             <button
                 onClick={onClickHandler}
                 className={s.button}
-                disabled={props.offButton}
+                disabled={counter.offSetButton}
             >set
             </button>
         </div>

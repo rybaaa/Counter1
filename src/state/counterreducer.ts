@@ -1,27 +1,35 @@
 export type CountType = Number | String
-type incAT = {
+type IncAT = {
     type: 'INCREMENT'
     value: CountType
 }
-type resetAT = {
+type ResetAT = {
     type: 'RESET'
 }
 type ChangeStartValueAT = {
-    type:'CHANGE_START_VALUE'
-    value:CountType
+    type: 'CHANGE_START_VALUE'
+    value: CountType
 }
 type ChangeMaxValueAT = {
-    type:'CHANGE_MAX_VALUE'
-    value:CountType
+    type: 'CHANGE_MAX_VALUE'
+    value: CountType
+}
+type SetValueAT = {
+    type: 'SET_NEW_COUNT'
+    value: CountType
+}
+type EnabledButtonAC = {
+    type: 'ENABLE_BUTTON'
+    isActive:boolean
 }
 
-export type ActionTypes = incAT | resetAT | ChangeStartValueAT | ChangeMaxValueAT
+export type ActionTypes = IncAT | ResetAT | ChangeStartValueAT | ChangeMaxValueAT | SetValueAT | EnabledButtonAC
 
 const initialState = {
     count: 0,
     startValue: 0,
     maxValue: 5,
-    offButton: false
+    offSetButton: true
 }
 export type InitStateType = typeof initialState
 
@@ -35,9 +43,13 @@ export const counterreducer = (state: InitStateType = initialState, action: Acti
         case 'RESET':
             return {...state, count: state.startValue}
         case 'CHANGE_START_VALUE':
-            return {...state, startValue: action.value, offButton: true}
+            return {...state, startValue: action.value, offSetButton: true}
         case 'CHANGE_MAX_VALUE':
-            return {...state, maxValue: action.value, offButton: true}
+            return {...state, maxValue: action.value, offSetButton: true}
+        case 'SET_NEW_COUNT':
+            return {...state, count: action.value, offSetButton: true}
+        case "ENABLE_BUTTON":
+            return {...state, offSetButton: action.isActive}
         default:
             return state
     }
@@ -54,4 +66,10 @@ export const changeStartValueAC = (value: CountType) => {
 }
 export const changeMaxValueAC = (value: CountType) => {
     return {type: 'CHANGE_MAX_VALUE', value} as const
+}
+export const setCountAC = (value: CountType) => {
+    return {type: 'SET_NEW_COUNT', value} as const
+}
+export const enabledButtonAC = (isActive:boolean) => {
+    return {type: 'ENABLE_BUTTON', isActive} as const
 }

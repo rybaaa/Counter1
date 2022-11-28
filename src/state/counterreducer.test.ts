@@ -1,4 +1,12 @@
-import {changeMaxValueAC, changeStartValueAC, counterreducer, incAC, InitStateType, resetAC} from "./counterreducer";
+import {
+    changeMaxValueAC,
+    changeStartValueAC,
+    counterreducer, enabledButtonAC,
+    incAC,
+    InitStateType,
+    resetAC,
+    setCountAC
+} from "./counterreducer";
 
 let startState: InitStateType
 
@@ -7,7 +15,7 @@ beforeEach(()=>{
         count:3,
         startValue:0,
         maxValue:5,
-        offButton:false
+        offSetButton:false
     }
 })
 
@@ -28,18 +36,20 @@ test ('count should be reset to start value', ()=>{
 test ('start value should be changed', ()=>{
     let endState = counterreducer(startState, changeStartValueAC(2))
     expect (endState.startValue).toBe(2)
-    expect(endState.offButton).toBeTruthy()
+    expect(endState.offSetButton).toBeTruthy()
 })
 
 test ('max value should be changed', ()=>{
     let endState = counterreducer(startState, changeMaxValueAC(22))
     expect (endState.maxValue).toBe(22)
-    expect(endState.offButton).toBeTruthy()
+    expect(endState.offSetButton).toBeTruthy()
 })
 test ('count should be changed', ()=>{
-    let endState = counterreducer(startState, setCountAC(22))
-    expect (endState.maxValue).toBe(22)
-    expect(endState.offButton).toBeTruthy()
+    let endState = counterreducer(startState, setCountAC('newValue'))
+    expect (endState.count).toBe('newValue')
 })
-
+test ('button should be enabled', ()=>{
+    let endState = counterreducer(startState, enabledButtonAC(true))
+    expect (endState.offSetButton).toBeTruthy()
+})
 
