@@ -14,21 +14,19 @@ export const CounterSet = () => {
     const dispatch = useDispatch()
 
     const onChangeHandlerStartValue = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(changeStartValueAC(+e.currentTarget.value))
         if (+e.currentTarget.value < 0 || +e.currentTarget.value >= counter.maxValue) {
-            dispatch(changeStartValueAC(+e.currentTarget.value))
             dispatch(setCountAC('Invalid value!'))
         } else {
-            dispatch(changeStartValueAC(+e.currentTarget.value))
             dispatch(setCountAC('Press Set'))
             dispatch(enabledButtonAC(false))
         }
     }
     const onChangeHandlerMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(changeMaxValueAC(+e.currentTarget.value))
         if (+e.currentTarget.value < 0 || +e.currentTarget.value <= counter.startValue || counter.startValue < 0) {
-            dispatch(changeMaxValueAC(+e.currentTarget.value))
             dispatch(setCountAC('Invalid value!'))
         } else {
-            dispatch(changeMaxValueAC(+e.currentTarget.value))
             dispatch(setCountAC('Press Set'))
             dispatch(enabledButtonAC(false))
         }
